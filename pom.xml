@@ -124,6 +124,8 @@
 							<goal>compile</goal>
 						</goals>
 						<configuration>
+							<source>21</source>
+							<target>21</target>
 							<annotationProcessorPaths>
 								<path>
 									<groupId>org.projectlombok</groupId>
@@ -139,6 +141,8 @@
 							<goal>testCompile</goal>
 						</goals>
 						<configuration>
+							<source>21</source>
+							<target>21</target>
 							<annotationProcessorPaths>
 								<path>
 									<groupId>org.projectlombok</groupId>
