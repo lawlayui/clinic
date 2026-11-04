@@ -80,5 +80,12 @@ class UserTest {
             assertThat(user.getName().getName()).isEqualTo("John Doe");
             assertThat(user.getCreatedAt()).isEqualTo(now);
         }
+
+        @Test 
+        void shouldRenameUser() {
+            User user = User.register("John Doe", "+62 8123456789", "john@example.com", Role.PATIENT);
+            user.rename("Jhon Doe");
+            assertThat(user.getName().getName()).isEqualTo("Jhon Doe");
+        }
     }
 }
