@@ -75,7 +75,7 @@ class UserTest {
         @Test
         void shouldReconstituteUser() {
             Instant now = Instant.now();
-            User user = User.reconstitue("uuid", "John Doe", "+62 8123456789", "john@example.com", Role.PATIENT, now, now);
+            User user = User.reconstitute("uuid", "John Doe", "+62 8123456789", "john@example.com", Role.PATIENT, now, now);
             assertThat(user.getId()).isEqualTo("uuid");
             assertThat(user.getName().getName()).isEqualTo("John Doe");
             assertThat(user.getCreatedAt()).isEqualTo(now);

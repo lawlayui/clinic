@@ -33,7 +33,7 @@ public class User {
         return new User(id, name, phoneNumber, email, role, createdAt, createdAt);
     }
 
-    public static User reconstitue(String id, String rawName, String rawPhoneNumber, String rawEmail, Role role, Instant createdAt, Instant updatedAt) {
+    public static User reconstitute(String id, String rawName, String rawPhoneNumber, String rawEmail, Role role, Instant createdAt, Instant updatedAt) {
         Name name = Name.of(rawName);
         PhoneNumber phoneNumber = PhoneNumber.of(rawPhoneNumber);
         Email email = Email.of(rawEmail);
