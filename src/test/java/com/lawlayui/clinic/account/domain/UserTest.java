@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -64,8 +65,8 @@ class UserTest {
     @Nested
     class UserEntityTest {
         @Test
-        void shouldRegisterUser() {
-            User user = User.register("John Doe", "+62 8123456789", "john@example.com", Role.PATIENT);
+        void shouldRegisterPatient() {
+            User user = User.registerPatient("John Doe", "+62 8123456789", "john@example.com");
             assertThat(user.getId()).isNotNull();
             assertThat(user.getCreatedAt()).isNotNull();
             assertThat(user.getUpdatedAt()).isEqualTo(user.getCreatedAt());
@@ -73,9 +74,9 @@ class UserTest {
         }
 
         @Test
-        void shouldReconstituteUser() {
+        void shouldReconstitute() {
             Instant now = Instant.now();
-            User user = User.reconstitute("uuid", "John Doe", "+62 8123456789", "john@example.com", Role.PATIENT, now, now);
+            User user = User.reconstitute("uuid", "John Doe", "+62 8123456789", "john@example.com", Role.PATIENT, now, now, null);
             assertThat(user.getId()).isEqualTo("uuid");
             assertThat(user.getName().getName()).isEqualTo("John Doe");
             assertThat(user.getCreatedAt()).isEqualTo(now);
@@ -83,9 +84,70 @@ class UserTest {
 
         @Test 
         void shouldRenameUser() {
-            User user = User.register("John Doe", "+62 8123456789", "john@example.com", Role.PATIENT);
+            User user = User.registerPatient("John Doe", "+62 8123456789", "john@example.com");
             user.rename("Jhon Doe");
             assertThat(user.getName().getName()).isEqualTo("Jhon Doe");
+        }
+    }
+
+    @Nested
+    class RegisterDoctorTest {
+        @Test
+        void shouldRegisterDoctor() {
+            List<String> healthServiceId = List.of("UUID");
+            User doctor = User.registerDoctor(
+                "John Doe",
+                "+62 8123456789",
+                "john@example.com",
+                healthServiceId
+            );
+
+            assertThat(doctor.getId()).isNotNull();
+            assertThat(doctor.getCreatedAt()).isNotNull();
+            assertThat(doctor.getUpdatedAt()).isEqualTo(doctor.getCreatedAt());
+            assertThat(doctor.getName().getName()).isEqualTo("John Doe");
+            assertThat(doctor.getHealthServiceId()).isEqualTo(healthServiceId);
+        }
+    }
+
+    @Nested 
+    class RenameDoctorTest {
+        @Test 
+        void shouldRenameDoctor() {
+            List<String> healthServiceId = List.of("UUID");
+            User doctor = User.registerDoctor(
+                "John Doe",
+                "+62 8123456789",
+                "john@example.com",
+                healthServiceId
+            );
+            doctor.rename("Jhon Doe");
+            assertThat(doctor.getName().getName()).isEqualTo("Jhon Doe");
+        }
+    }
+
+    @Nested
+    class ReconstituteDoctorTest {
+        @Test
+        void shouldReconstituteDoctor() {
+            Instant now = Instant.now();
+            List<String> healthServiceId = List.of("UUID");
+
+            User doctor = User.reconstitute(
+                "uuid",
+                "John Doe",
+                "+62 8123456789",
+                "john@example.com",
+                Role.DOCTOR,
+                now,
+                now,
+                healthServiceId
+            );
+
+            assertThat(doctor.getId()).isEqualTo("uuid");
+            assertThat(doctor.getName().getName()).isEqualTo("John Doe");
+            assertThat(doctor.getCreatedAt()).isEqualTo(now);
+            assertThat(doctor.getHealthServiceId()).isEqualTo(healthServiceId);
         }
     }
 }
